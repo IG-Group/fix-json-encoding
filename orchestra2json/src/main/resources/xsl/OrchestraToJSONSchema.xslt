@@ -5,6 +5,8 @@
 	xmlns:fixr="http://fixprotocol.io/2016/fixrepository"
 	xmlns:dcterms="http://purl.org/dc/terms/" exclude-result-prefixes="fn">
 	<xsl:output method="text" encoding="UTF-8"/>
+	<xsl:param name="targetDirectory">target/definitions</xsl:param>
+	<xsl:variable name="forwardSlash">/</xsl:variable>
 	<xsl:template match="/">
 		<xsl:apply-templates/>
 	</xsl:template>
@@ -18,7 +20,7 @@
 		<xsl:apply-templates/>	
 	</xsl:template>
 	<xsl:template match="fixr:component">
-		<xsl:variable name="filename" select="fn:concat('definitions/', @name, '.json')"/>
+		<xsl:variable name="filename" select="fn:concat($targetDirectory, $forwardSlash, @name, '.json')"/>
 		<xsl:result-document method="text" href="{$filename}">
 { 
 	"title"                : "<xsl:value-of select="@name"/>",
@@ -33,7 +35,7 @@
 }
 		</xsl:result-document>
 	</xsl:template>
-	<xsl:template match="fixr:group">		<xsl:variable name="filename" select="fn:concat('definitions/', @name, '.json')"/>
+	<xsl:template match="fixr:group">		<xsl:variable name="filename" select="fn:concat($targetDirectory, $forwardSlash, @name, '.json')"/>
 		<xsl:result-document method="text" href="{$filename}">
 { 
 	"title"                : "<xsl:value-of select="@name"/>",
@@ -56,7 +58,7 @@
 		<xsl:apply-templates/>	
 	</xsl:template>
 	<xsl:template match="fixr:message">
-		<xsl:variable name="filename" select="fn:concat('definitions/', @name, @scenario, '.json')"/>
+		<xsl:variable name="filename" select="fn:concat($targetDirectory, $forwardSlash, @name, @scenario, '.json')"/>
 		<xsl:result-document method="text" href="{$filename}">
 { 
 	"$schema"              : "http://json-schema.org/draft-04/schema#",
@@ -82,7 +84,7 @@
 		"<xsl:value-of select="@name"/>"<xsl:if test="fn:position() != fn:last()">, </xsl:if>
 	</xsl:template>
 	<xsl:template match="fixr:componentRef|fixr:groupRef" mode="properties">
-		"<xsl:value-of select="@name"/>" : {"$ref": "#/definitions/<xsl:value-of select="@name"/>"}<xsl:if test="fn:position() != fn:last()">, </xsl:if>
+		"<xsl:value-of select="@name"/>" : {"$ref": "#/target/definitions/<xsl:value-of select="@name"/>"}<xsl:if test="fn:position() != fn:last()">, </xsl:if>
 	</xsl:template>
 	<xsl:template name="datatype">
 		<xsl:param name="id"/>

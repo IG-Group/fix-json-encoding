@@ -1,2 +1,7 @@
 java/target/
 scratch/
+**/.classpath
+**/.project
+**/.settings
+**/target
+**/definitions
