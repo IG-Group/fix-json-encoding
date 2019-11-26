@@ -5,7 +5,7 @@
 	xmlns:fixr="http://fixprotocol.io/2016/fixrepository"
 	xmlns:dcterms="http://purl.org/dc/terms/" exclude-result-prefixes="fn">
 	<xsl:output method="text" encoding="UTF-8"/>
-	<xsl:param name="targetDirectory">target/definitions</xsl:param>
+	<xsl:param name="targetDirectory">target/generated-resources/definitions</xsl:param>
 	<xsl:variable name="forwardSlash">/</xsl:variable>
 	<xsl:template match="/">
 		<xsl:apply-templates/>
@@ -75,8 +75,10 @@
 		</xsl:result-document>
 	</xsl:template>
 	<xsl:template match="fixr:fieldRef" mode="properties">
-		"<xsl:value-of select="@name"/>": { 
-		<xsl:call-template name="datatype"><xsl:with-param name="id" select="@id"/></xsl:call-template><xsl:apply-templates select="@*"/>
+		<xsl:variable name="fieldId" select="@id"/>
+		"<xsl:value-of select="/fixr:repository/fixr:fields/fixr:field[@id=$fieldId]/@name"/>": {  
+		<xsl:call-template name="datatype"><xsl:with-param name="id" select="@id"/></xsl:call-template>
+		<xsl:apply-templates select="@*"/>
 		<xsl:call-template name="enum"><xsl:with-param name="id" select="@id"/></xsl:call-template>
 		}<xsl:if test="fn:position() != fn:last()">, </xsl:if>
 	</xsl:template>

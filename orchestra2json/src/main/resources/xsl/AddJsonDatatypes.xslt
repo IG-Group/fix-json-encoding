@@ -16,6 +16,9 @@
 			<xsl:copy-of select="fixr:sections"/>
 			<xsl:copy-of select="fixr:fields"/>
 			<xsl:copy-of select="fixr:protocol"/>
+			<xsl:copy-of select="fixr:components"/>
+			<xsl:copy-of select="fixr:groups"/>
+			<xsl:copy-of select="fixr:messages"/>
 		</xsl:copy>
     </xsl:template>
     <xsl:template match="fixr:datatypes">

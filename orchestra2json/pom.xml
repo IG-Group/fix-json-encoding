@@ -21,6 +21,15 @@
 		</dependency>
 	</dependencies>
 	<build>
+		<pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>3.2.0</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>	
 		<plugins>
             <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -52,25 +61,42 @@
 				<version>1.0.2</version>
 				<executions>
 					<execution>
+						<id>orchestraTransformForJsonDatatypes</id>
 						<goals>
 							<goal>transform</goal>
 						</goals>
+						<configuration>
+							<transformationSets>
+								<transformationSet>
+									<dir>${project.build.directory}/repository</dir>
+									<stylesheet>src/main/resources/xsl/AddJsonDatatypes.xslt</stylesheet>
+									<outputDir>${project.build.directory}/repositoryWithJsonDatatypes</outputDir>
+								</transformationSet>
+							</transformationSets>
+						</configuration>						
+					</execution>
+					<execution>
+						<id>orchestra2Json</id>
+						<goals>
+							<goal>transform</goal>
+						</goals>
+						<configuration>
+							<transformationSets>
+								<transformationSet>
+									<dir>${project.build.directory}/repositoryWithJsonDatatypes</dir>
+<!-- 									<dir>${project.build.directory}/repository</dir> -->
+									<stylesheet>src/main/resources/xsl/OrchestraToJSONSchema.xslt</stylesheet>
+									<parameters>
+						                <parameter>
+						                  <name>targetDirectory</name>
+						                  <value>target/generated-resources/definitions</value>
+						                </parameter>
+		              				</parameters>
+								</transformationSet>
+							</transformationSets>
+						</configuration>						
 					</execution>
 				</executions>
-				<configuration>
-					<transformationSets>
-						<transformationSet>
-							<dir>${project.build.directory}/repository</dir>
-							<stylesheet>src/main/resources/xsl/OrchestraToJSONSchema.xslt</stylesheet>
-							<parameters>
-				                <parameter>
-				                  <name>targetDirectory</name>
-				                  <value>target/definitions</value>
-				                </parameter>
-              				</parameters>
-						</transformationSet>
-					</transformationSets>
-				</configuration>
 				<dependencies>
 					<dependency>
 						<groupId>net.sf.saxon</groupId>
@@ -79,6 +105,24 @@
 					</dependency>
 				</dependencies>
 			</plugin>
+			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                    <id>create-distribution</id>
+                    <phase>package</phase>
+                        <goals>
+                          <goal>single</goal>
+                        </goals>
+                        <configuration>
+                          <descriptors>
+                            <descriptor>${project.basedir}/src/main/assembly/json-schema-assembly.xml</descriptor>
+                          </descriptors>
+                        </configuration>
+                      </execution>
+                    </executions>
+            </plugin>    			
 		</plugins>
 	</build>
 </project>
