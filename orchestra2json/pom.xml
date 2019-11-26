@@ -48,7 +48,7 @@
 										<artifactId>ig-us-rfed</artifactId>
 										<classifier>repository</classifier>
 										<type>zip</type>
-                                        <outputDirectory>${project.build.directory}/repository</outputDirectory>
+                                        <outputDirectory>${project.build.directory}/dependency/repository</outputDirectory>
                                     </artifactItem>            
                                 </artifactItems>
                             </configuration>
@@ -68,7 +68,7 @@
 						<configuration>
 							<transformationSets>
 								<transformationSet>
-									<dir>${project.build.directory}/repository</dir>
+									<dir>${project.build.directory}/dependency/repository</dir>
 									<stylesheet>src/main/resources/xsl/AddJsonDatatypes.xslt</stylesheet>
 									<outputDir>${project.build.directory}/repositoryWithJsonDatatypes</outputDir>
 								</transformationSet>
@@ -84,7 +84,6 @@
 							<transformationSets>
 								<transformationSet>
 									<dir>${project.build.directory}/repositoryWithJsonDatatypes</dir>
-<!-- 									<dir>${project.build.directory}/repository</dir> -->
 									<stylesheet>src/main/resources/xsl/OrchestraToJSONSchema.xslt</stylesheet>
 									<parameters>
 						                <parameter>

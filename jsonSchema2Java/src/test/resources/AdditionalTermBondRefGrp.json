@@ -1,0 +1,127 @@
+
+{ 
+	"title"                : "AdditionalTermBondRefGrp",
+	"description"          : "JSON Schema for repeating group AdditionalTermBondRefGrp",
+	"type"                 : "array",
+	"items"                : {
+		"type": "object",
+		
+		"properties": {
+			
+		"AdditionalTermBondSecurityID": {  
+		
+			"type": "string"
+	
+		}, 
+		"AdditionalTermBondSecurityIDSource": {  
+		
+			"type": "string"
+	,
+			"enum": [
+			"1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "U", "V", "W", "X"
+			]
+		
+		}, 
+		"AdditionalTermBondDesc": {  
+		
+			"type": "string"
+	
+		}, 
+		"EncodedAdditionalTermBondDescLen": {  
+		
+			"type": "integer"
+	
+		}, 
+		"EncodedAdditionalTermBondDesc": {  
+		
+			"type": "string"
+	
+		}, 
+		"AdditionalTermBondCurrency": {  
+		
+			"type": "string"
+	
+		}, 
+		"AdditionalTermBondIssuer": {  
+		
+			"type": "string"
+	
+		}, 
+		"EncodedAdditionalTermBondIssuerLen": {  
+		
+			"type": "integer"
+	
+		}, 
+		"EncodedAdditionalTermBondIssuer": {  
+		
+			"type": "string"
+	
+		}, 
+		"AdditionalTermBondSeniority": {  
+		
+			"type": "string"
+	,
+			"enum": [
+			"SD", "SR", "SB", "JR", "MZ", "SN"
+			]
+		
+		}, 
+		"AdditionalTermBondCouponType": {  
+		
+			"type": "integer"
+	,
+			"enum": [
+			0, 1, 2, 3
+			]
+		
+		}, 
+		"AdditionalTermBondCouponRate": {  
+		
+			"type": "number"
+	
+		}, 
+		"AdditionalTermBondMaturityDate": {  
+		
+			"type": "string"
+	
+		}, 
+		"AdditionalTermBondParValue": {  
+		
+			"type": "number"
+	
+		}, 
+		"AdditionalTermBondCurrentTotalIssuedAmount": {  
+		
+			"type": "number"
+	
+		}, 
+		"AdditionalTermBondCouponFrequencyPeriod": {  
+		
+			"type": "integer"
+	
+		}, 
+		"AdditionalTermBondCouponFrequencyUnit": {  
+		
+			"type": "string"
+	,
+			"enum": [
+			"D", "Wk", "Mo", "Yr", "H", "Min", "S", "T"
+			]
+		
+		}, 
+		"AdditionalTermBondDayCount": {  
+		
+			"type": "integer"
+	,
+			"enum": [
+			0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17
+			]
+		
+		}
+		},
+		"required"             : [ 
+		
+		]
+	}
+}
+		

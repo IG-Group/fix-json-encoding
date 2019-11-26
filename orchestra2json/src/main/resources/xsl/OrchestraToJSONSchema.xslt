@@ -82,9 +82,6 @@
 		<xsl:call-template name="enum"><xsl:with-param name="id" select="@id"/></xsl:call-template>
 		}<xsl:if test="fn:position() != fn:last()">, </xsl:if>
 	</xsl:template>
-<!-- 	<xsl:template match="fixr:fieldRef|fixr:componentRef|fixr:groupRef" mode="required"> -->
-<!-- 		"<xsl:value-of select="@name"/>"<xsl:if test="fn:position() != fn:last()">, </xsl:if> -->
-<!-- 	</xsl:template> -->
 	<xsl:template match="fixr:fieldRef" mode="required">
 		<xsl:variable name="theId" select="@id"/>
 		"<xsl:value-of select="/fixr:repository/fixr:fields/fixr:field[@id=$theId]/@name"/>"<xsl:if test="fn:position() != fn:last()">, </xsl:if>
@@ -100,12 +97,12 @@
 	<xsl:template match="fixr:groupRef" mode="properties">
 		<xsl:variable name="theId" select="@id"/>
 		<xsl:variable name="theName" select="/fixr:repository/fixr:groups/fixr:group[@id=$theId]/@name"/>
-		"<xsl:value-of select="$theName"/>" : {"$ref": "#/<xsl:value-of select="$theName"/>"}<xsl:if test="fn:position() != fn:last()">, </xsl:if>
+		"<xsl:value-of select="$theName"/>" : {"$ref": "<xsl:value-of select="$theName"/>.json"}<xsl:if test="fn:position() != fn:last()">, </xsl:if>
 	</xsl:template>
 	<xsl:template match="fixr:componentRef" mode="properties">
 		<xsl:variable name="theId" select="@id"/>
 		<xsl:variable name="theName" select="/fixr:repository/fixr:components/fixr:component[@id=$theId]/@name"/>
-		"<xsl:value-of select="$theName"/>" : {"$ref": "#/<xsl:value-of select="$theName"/>"}<xsl:if test="fn:position() != fn:last()">, </xsl:if>
+		"<xsl:value-of select="$theName"/>" : {"$ref": "<xsl:value-of select="$theName"/>.json"}<xsl:if test="fn:position() != fn:last()">, </xsl:if>
 	</xsl:template>
 	<xsl:template name="datatype">
 		<xsl:param name="id"/>

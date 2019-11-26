@@ -1,0 +1,28 @@
+
+{ 
+	"title"                : "AdditionalTermGrp",
+	"description"          : "JSON Schema for repeating group AdditionalTermGrp",
+	"type"                 : "array",
+	"items"                : {
+		"type": "object",
+		
+		"properties": {
+			
+		"AdditionalTermConditionPrecedentBondIndicator": {  
+		
+			"type": "boolean"
+	
+		}, 
+		"AdditionalTermDiscrepancyClauseIndicator": {  
+		
+			"type": "boolean"
+	
+		}, 
+		"AdditionalTermBondRefGrp" : {"$ref": "AdditionalTermBondRefGrp.json"}
+		},
+		"required"             : [ 
+		
+		]
+	}
+}
+		

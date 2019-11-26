@@ -1,0 +1,33 @@
+
+{ 
+	"title"                : "HopGrp",
+	"description"          : "JSON Schema for repeating group HopGrp",
+	"type"                 : "array",
+	"items"                : {
+		"type": "object",
+		
+		"properties": {
+			
+		"HopCompID": {  
+		
+			"type": "string"
+	
+		}, 
+		"HopSendingTime": {  
+		
+			"type": "string"
+	,
+			"format": "date-time"
+		}, 
+		"HopRefID": {  
+		
+			"type": "integer"
+	
+		}
+		},
+		"required"             : [ 
+		
+		]
+	}
+}
+		
