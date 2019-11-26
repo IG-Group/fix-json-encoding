@@ -67,7 +67,6 @@
                  <version>1.0.1</version>
                  <configuration>
                      <sourceDirectory>${project.build.directory}/json-schema</sourceDirectory>
-<!-- 					 <sourceDirectory>src/test/resources</sourceDirectory> -->
                      <targetPackage>com.ig.rfed.fix</targetPackage>
                  </configuration>
                  <executions>
