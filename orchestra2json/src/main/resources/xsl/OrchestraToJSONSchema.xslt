@@ -66,7 +66,12 @@
 	"description"          : "JSON Schema for message <xsl:value-of select="@name"/>",
 	"type"                 : "object",
 	"properties"           : {
-			<xsl:apply-templates select="fixr:structure/fixr:fieldRef|fixr:structure/fixr:groupRef|fixr:structure/fixr:componentRef" mode="properties"/>
+			<xsl:apply-templates select="fixr:structure/fixr:componentRef[@id='1024']" mode="properties"/>,
+		"Body"           : {
+		     "properties"           : {
+			<xsl:apply-templates select="fixr:structure/fixr:fieldRef|fixr:structure/fixr:groupRef|fixr:structure/fixr:componentRef[not(@id='1024')]" mode="properties"/>
+			}
+		}
 	},
 	"required"             : [ 
 			<xsl:apply-templates select="fixr:structure/fixr:fieldRef[@presence='required']|fixr:structure/fixr:groupRef[@presence='required']|fixr:structure/fixr:componentRef[@presence='required']" mode="required"/>
@@ -86,6 +91,10 @@
 		<xsl:variable name="theId" select="@id"/>
 		"<xsl:value-of select="/fixr:repository/fixr:fields/fixr:field[@id=$theId]/@name"/>"<xsl:if test="fn:position() != fn:last()">, </xsl:if>
 	</xsl:template>
+	<xsl:template match="fixr:componentRef[(@id='1024')]" mode="required">
+		<xsl:variable name="theId" select="@id"/>
+		"Header"<xsl:if test="fn:position() != fn:last()">, </xsl:if>
+	</xsl:template>	
 	<xsl:template match="fixr:componentRef" mode="required">
 		<xsl:variable name="theId" select="@id"/>
 		"<xsl:value-of select="/fixr:repository/fixr:components/fixr:component[@id=$theId]/@name"/>"<xsl:if test="fn:position() != fn:last()">, </xsl:if>
@@ -98,6 +107,11 @@
 		<xsl:variable name="theId" select="@id"/>
 		<xsl:variable name="theName" select="/fixr:repository/fixr:groups/fixr:group[@id=$theId]/@name"/>
 		"<xsl:value-of select="$theName"/>" : {"$ref": "<xsl:value-of select="$theName"/>.json"}<xsl:if test="fn:position() != fn:last()">, </xsl:if>
+	</xsl:template>
+	<xsl:template match="fixr:componentRef[(@id='1024')]" mode="properties">
+		<xsl:variable name="theId" select="@id"/>
+		<xsl:variable name="theName" select="/fixr:repository/fixr:components/fixr:component[@id=$theId]/@name"/>
+		"Header" : {"$ref": "<xsl:value-of select="$theName"/>.json"}<xsl:if test="fn:position() != fn:last()">, </xsl:if>
 	</xsl:template>
 	<xsl:template match="fixr:componentRef" mode="properties">
 		<xsl:variable name="theId" select="@id"/>
