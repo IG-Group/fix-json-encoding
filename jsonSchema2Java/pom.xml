@@ -2,20 +2,27 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ig.fixprotocol.json</groupId>
-	<artifactId>java-from-json-schema</artifactId>
+	<artifactId>java-binding</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>${project.groupId}:${project.artifactId}</name>
 	<inceptionYear>2017</inceptionYear>
+	<properties>
+		<java.version>1.8</java.version>
+	</properties>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>io.fixprotocol.json</groupId>
+				<artifactId>orchestra2json</artifactId>
+				<classifier>jsonschema</classifier>
+				<version>${project.version}</version>
+				<type>zip</type>		
+			</dependency>
+		</dependencies>			
+	</dependencyManagement>
 	<dependencies>
-		<dependency>
-			<groupId>io.fixprotocol.json</groupId>
-			<artifactId>orchestra2json</artifactId>
-			<classifier>jsonschema</classifier>
-			<version>0.0.1-SNAPSHOT</version>
-			<type>zip</type>		
-		</dependency>
-             <dependency>
+         <dependency>
              <groupId>org.apache.commons</groupId>
              <artifactId>commons-lang3</artifactId>
              <version>3.0</version>
@@ -34,6 +41,21 @@
                     <artifactId>maven-assembly-plugin</artifactId>
                     <version>3.2.0</version>
                 </plugin>
+                <plugin>
+	                <groupId>org.jsonschema2pojo</groupId>
+	                <artifactId>jsonschema2pojo-maven-plugin</artifactId>
+	                <version>1.0.1</version>
+                </plugin>
+				<plugin>
+			        <groupId>org.apache.maven.plugins</groupId>
+			        <artifactId>maven-compiler-plugin</artifactId>
+			        <version>3.8.1</version>
+			    </plugin>
+				<plugin>
+			        <groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>3.0.2</version>
+				</plugin>	
             </plugins>
         </pluginManagement>	
 		<plugins>
@@ -64,20 +86,40 @@
              <plugin>
                  <groupId>org.jsonschema2pojo</groupId>
                  <artifactId>jsonschema2pojo-maven-plugin</artifactId>
-                 <version>1.0.1</version>
                  <configuration>
                      <sourceDirectory>${project.build.directory}/json-schema</sourceDirectory>
                      <targetPackage>com.ig.rfed.fix</targetPackage>
                  </configuration>
                  <executions>
-                 <execution>
-                    <phase>generate-sources</phase>
-                     <goals>
-                         <goal>generate</goal>
-                     </goals>
-                 </execution>
+	                 <execution>
+	                    <phase>generate-sources</phase>
+	                     <goals>
+	                         <goal>generate</goal>
+	                     </goals>
+	                 </execution>
                  </executions>
-             </plugin>            
+             </plugin>
+			<plugin>
+		        <groupId>org.apache.maven.plugins</groupId>
+		        <artifactId>maven-compiler-plugin</artifactId>
+		        <executions>
+	                <execution>
+	                	<id>compile</id>
+	                    <phase>compile</phase>
+	                    <goals>
+	                        <goal>compile</goal>
+	                    </goals>
+                	</execution>
+                </executions>
+		        <configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+		        </configuration>
+		    </plugin>
+			<plugin>
+		        <groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+			</plugin>		                             
 		</plugins>
 	</build>
 </project>
