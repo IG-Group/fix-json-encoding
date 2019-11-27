@@ -67,10 +67,7 @@
 	"type"                 : "object",
 	"properties"           : {
 			<xsl:apply-templates select="fixr:structure/fixr:componentRef[@id='1024']" mode="properties"/>,
-		"Body"           : {
-		     "properties"           : {
 			<xsl:apply-templates select="fixr:structure/fixr:fieldRef|fixr:structure/fixr:groupRef|fixr:structure/fixr:componentRef[not(@id='1024')]" mode="properties"/>
-			}
 		}
 	},
 	"required"             : [ 
