@@ -19,6 +19,34 @@
 	<xsl:template match="fixr:components">
 		<xsl:apply-templates/>	
 	</xsl:template>
+	<xsl:template match="fixr:fields">
+		<xsl:apply-templates/>	
+	</xsl:template>	
+	<xsl:template match="fixr:field">
+        <xsl:variable name="fieldType" select="@type"/>
+        <!-- test if the field type is a code set, if so output an object for the enum -->
+		<xsl:if test="/fixr:repository/fixr:codeSets/fixr:codeSet[@name=$fieldType]">
+			<xsl:variable name="filename" select="fn:concat($targetDirectory, $forwardSlash, @name, '.json')"/>
+			<xsl:result-document method="text" href="{$filename}">
+
+{ 
+	"title"                : "<xsl:value-of select="@name"/>",
+	"description"          : "JSON Schema for field <xsl:value-of select="@name"/>",
+	"type"                 : "object",
+	"properties"           : {
+		"<xsl:value-of select="@name"/>Enum" : {
+	 	 <xsl:call-template name="datatype"><xsl:with-param name="id" select="@id"/></xsl:call-template>
+		 <xsl:apply-templates select="@*"/>
+		 <xsl:call-template name="enum"><xsl:with-param name="id" select="@id"/></xsl:call-template>
+		},
+	},
+	"required"             : [ 
+		"<xsl:value-of select="@name"/>Enum"
+	]
+}
+			</xsl:result-document>
+		</xsl:if>		
+	</xsl:template>	
 	<xsl:template match="fixr:component">
 		<xsl:variable name="filename" select="fn:concat($targetDirectory, $forwardSlash, @name, '.json')"/>
 		<xsl:result-document method="text" href="{$filename}">
@@ -67,7 +95,6 @@
 	"type"                 : "object",
 	"properties"           : {
 			<xsl:apply-templates select="fixr:structure/fixr:fieldRef|fixr:structure/fixr:groupRef|fixr:structure/fixr:componentRef" mode="properties"/>
-		}
 	},
 	"required"             : [ 
 			<xsl:apply-templates select="fixr:structure/fixr:fieldRef[@presence='required']|fixr:structure/fixr:groupRef[@presence='required']|fixr:structure/fixr:componentRef[@presence='required']" mode="required"/>
@@ -77,12 +104,21 @@
 	</xsl:template>
 	<xsl:template match="fixr:fieldRef" mode="properties">
 		<xsl:variable name="fieldId" select="@id"/>
-		"<xsl:value-of select="/fixr:repository/fixr:fields/fixr:field[@id=$fieldId]/@name"/>": {  
-		<xsl:call-template name="datatype"><xsl:with-param name="id" select="@id"/></xsl:call-template>
-		<xsl:apply-templates select="@*"/>
-		<xsl:call-template name="enum"><xsl:with-param name="id" select="@id"/></xsl:call-template>
+		<xsl:variable name="fieldName" select="/fixr:repository/fixr:fields/fixr:field[@id=$fieldId]/@name"/>
+		<xsl:variable name="fieldType" select="/fixr:repository/fixr:fields/fixr:field[@id=$fieldId]/@type"/>
+		"<xsl:value-of select="$fieldName"/>": {  
+		<xsl:choose>
+			<xsl:when test="/fixr:repository/fixr:codeSets/fixr:codeSet[@name=$fieldType]">
+			"$ref": "<xsl:value-of select="$fieldName"/>.json"
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:call-template name="datatype"><xsl:with-param name="id" select="@id"/></xsl:call-template>
+				<xsl:apply-templates select="@*"/>
+			</xsl:otherwise>
+		</xsl:choose>
 		}<xsl:if test="fn:position() != fn:last()">, </xsl:if>
 	</xsl:template>
+
 	<xsl:template match="fixr:fieldRef" mode="required">
 		<xsl:variable name="theId" select="@id"/>
 		"<xsl:value-of select="/fixr:repository/fixr:fields/fixr:field[@id=$theId]/@name"/>"<xsl:if test="fn:position() != fn:last()">, </xsl:if>
@@ -158,7 +194,6 @@
 	<xsl:template match="fixr:datatypes"/>
 	<xsl:template match="fixr:categories"/>
 	<xsl:template match="fixr:sections"/>
-	<xsl:template match="fixr:fields"/>
 	<xsl:template match="fixr:actors" mode="#all"/>
 	<xsl:template match="fixr:annotation" mode="#all"/>
 	<xsl:template match="fixr:responses" mode="#all"/>
