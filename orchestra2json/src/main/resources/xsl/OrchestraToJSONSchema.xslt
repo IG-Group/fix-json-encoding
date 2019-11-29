@@ -28,22 +28,16 @@
 		<xsl:if test="/fixr:repository/fixr:codeSets/fixr:codeSet[@name=$fieldType]">
 			<xsl:variable name="filename" select="fn:concat($targetDirectory, $forwardSlash, @name, '.json')"/>
 			<xsl:result-document method="text" href="{$filename}">
-
+			<xsl:variable name="codesetType" select="/fixr:repository/fixr:codeSets/fixr:codeSet[@name=$fieldType]/@type"/>
 { 
 	"title"                : "<xsl:value-of select="@name"/>",
 	"description"          : "JSON Schema for field <xsl:value-of select="@name"/>",
 	"javaType" : "com.ig.rfed.fix.<xsl:value-of select="@name"/>",
-	"type"                 : "object",
-	"properties"           : {
-		"<xsl:value-of select="@name"/>Enum" : {
-	 	 <xsl:call-template name="datatype"><xsl:with-param name="id" select="@id"/></xsl:call-template>
-		 <xsl:apply-templates select="@*"/>
+	<xsl:apply-templates select="/fixr:repository/fixr:datatypes/fixr:datatype[@name=$codesetType]/fixr:mappedDatatype[@standard='JSON']/@*"/> 
+<!-- 	"type"                 : "<xsl:value-of select="$codesetType"/>" -->
+<!-- 	 	 <xsl:call-template name="datatype"><xsl:with-param name="id" select="@id"/></xsl:call-template> -->
+<!-- 		 <xsl:apply-templates select="@*"/> -->
 		 <xsl:call-template name="enum"><xsl:with-param name="id" select="@id"/></xsl:call-template>
-		}
-	},
-	"required"             : [ 
-		"<xsl:value-of select="@name"/>Enum"
-	]
 }
 			</xsl:result-document>
 		</xsl:if>		
