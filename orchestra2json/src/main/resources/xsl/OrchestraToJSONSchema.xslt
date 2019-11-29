@@ -38,7 +38,7 @@
 	 	 <xsl:call-template name="datatype"><xsl:with-param name="id" select="@id"/></xsl:call-template>
 		 <xsl:apply-templates select="@*"/>
 		 <xsl:call-template name="enum"><xsl:with-param name="id" select="@id"/></xsl:call-template>
-		},
+		}
 	},
 	"required"             : [ 
 		"<xsl:value-of select="@name"/>Enum"
@@ -181,6 +181,7 @@
 			<xsl:for-each select="/fixr:repository/fixr:codeSets/fixr:codeSet[@name=$fieldType]/fixr:code">
 				<xsl:choose>
 					<xsl:when test="$codesetType='int'"><xsl:value-of select="@value"/></xsl:when>
+					<xsl:when test="$codesetType='NumInGroup'"><xsl:value-of select="@value"/></xsl:when>
 					<xsl:otherwise>"<xsl:value-of select="@value"/>"</xsl:otherwise>
 			</xsl:choose>
 		<xsl:if test="fn:position() != fn:last()">, </xsl:if>

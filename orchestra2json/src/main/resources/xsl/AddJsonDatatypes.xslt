@@ -44,6 +44,7 @@
 				<fixr:mappedDatatype standard="JSON" base="integer" builtin="1"/>
 				</xsl:when>
 				<xsl:when test="@name='NumInGroup'">
+				<fixr:mappedDatatype standard="JSON" base="integer" builtin="1"/>
 				</xsl:when>
 				<xsl:when test="@name='DayOfMonth'">
 				<fixr:mappedDatatype standard="JSON" base="integer" minInclusive="1" maxInclusive="31" builtin="1"/>

@@ -87,8 +87,8 @@
                  <groupId>org.jsonschema2pojo</groupId>
                  <artifactId>jsonschema2pojo-maven-plugin</artifactId>
                  <configuration>
-<!--                      <sourceDirectory>${project.build.directory}/json-schema</sourceDirectory> -->
-                     <sourceDirectory>${project.basedir}/src/test/resources</sourceDirectory>
+                     <sourceDirectory>${project.build.directory}/json-schema</sourceDirectory>
+<!--                      <sourceDirectory>${project.basedir}/src/test/resources</sourceDirectory> -->
                      <targetPackage>com.ig.rfed.fix</targetPackage>
                  </configuration>
                  <executions>
