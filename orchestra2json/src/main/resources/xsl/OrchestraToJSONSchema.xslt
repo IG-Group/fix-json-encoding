@@ -32,6 +32,7 @@
 { 
 	"title"                : "<xsl:value-of select="@name"/>",
 	"description"          : "JSON Schema for field <xsl:value-of select="@name"/>",
+	"javaType" : "com.ig.rfed.fix.<xsl:value-of select="@name"/>",
 	"type"                 : "object",
 	"properties"           : {
 		"<xsl:value-of select="@name"/>Enum" : {
