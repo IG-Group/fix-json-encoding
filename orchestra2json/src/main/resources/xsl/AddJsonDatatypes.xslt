@@ -71,7 +71,7 @@
 				<fixr:mappedDatatype standard="JSON" base="string" pattern=".{1}" builtin="0"/>
 				</xsl:when>
 				<xsl:when test="@name='Boolean'">
-				<fixr:mappedDatatype standard="JSON" base="boolean" builtin="1"/>
+				<fixr:mappedDatatype standard="JSON" base="string" builtin="1"/>
 				</xsl:when>
 				<xsl:when test="@name='String'">
 				<fixr:mappedDatatype standard="JSON" base="string" builtin="1"/>
