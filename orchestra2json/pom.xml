@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.fixprotocol.json</groupId>
 	<artifactId>orchestra2json</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>${project.groupId}:${project.artifactId}</name>
 	<inceptionYear>2017</inceptionYear>
@@ -90,6 +90,10 @@
 						                  <name>targetDirectory</name>
 						                  <value>target/generated-resources/definitions</value>
 						                </parameter>
+										<parameter>
+						                  <name>javaPackageName</name>
+						                  <value>com.ig.rfed.fix</value>
+										</parameter>
 		              				</parameters>
 								</transformationSet>
 							</transformationSets>

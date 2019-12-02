@@ -6,6 +6,7 @@
 	xmlns:dcterms="http://purl.org/dc/terms/" exclude-result-prefixes="fn">
 	<xsl:output method="text" encoding="UTF-8"/>
 	<xsl:param name="targetDirectory">target/generated-resources/definitions</xsl:param>
+	<xsl:param name="javaPackageName"></xsl:param>
 	<xsl:variable name="forwardSlash">/</xsl:variable>
 	<xsl:template match="/">
 		<xsl:apply-templates/>
@@ -32,7 +33,9 @@
 { 
 	"title"                : "<xsl:value-of select="@name"/>",
 	"description"          : "JSON Schema for field <xsl:value-of select="@name"/>",
-	"javaType" : "com.ig.rfed.fix.<xsl:value-of select="@name"/>",
+	<xsl:if test="$javaPackageName">
+	"javaType" : "<xsl:value-of select="$javaPackageName"/>.<xsl:value-of select="@name"/>",
+	</xsl:if>
 	<xsl:apply-templates select="/fixr:repository/fixr:datatypes/fixr:datatype[@name=$codesetType]/fixr:mappedDatatype[@standard='JSON']/@*"/> 
     <xsl:call-template name="enum"><xsl:with-param name="id" select="@id"/></xsl:call-template>
 }
