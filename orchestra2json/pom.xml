@@ -13,10 +13,10 @@
 	</organization>
 	<dependencies>
 		<dependency>
-			<groupId>io.fixprotocol.orchestrations</groupId>
+			<groupId>com.ig.orchestrations</groupId>
 			<artifactId>ig-us-rfed</artifactId>
 			<classifier>repository</classifier>
-			<version>1.3.0-RC4</version>
+			<version>0.1.0-SNAPSHOT</version>
 			<type>zip</type>		
 		</dependency>
 	</dependencies>
@@ -44,7 +44,7 @@
                             <configuration>
                                 <artifactItems>
                                     <artifactItem>
-										<groupId>io.fixprotocol.orchestrations</groupId>
+										<groupId>com.ig.orchestrations</groupId>
 										<artifactId>ig-us-rfed</artifactId>
 										<classifier>repository</classifier>
 										<type>zip</type>

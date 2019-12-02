@@ -4,7 +4,7 @@
 	<groupId>ig.fixprotocol.json</groupId>
 	<artifactId>java-binding</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
+	<packaging>jar</packaging>
 	<name>${project.groupId}:${project.artifactId}</name>
 	<inceptionYear>2017</inceptionYear>
 	<properties>
@@ -103,15 +103,15 @@
 			<plugin>
 		        <groupId>org.apache.maven.plugins</groupId>
 		        <artifactId>maven-compiler-plugin</artifactId>
-		        <executions>
-	                <execution>
-	                	<id>compile</id>
-	                    <phase>compile</phase>
-	                    <goals>
-	                        <goal>compile</goal>
-	                    </goals>
-                	</execution>
-                </executions>
+<!-- 		        <executions> -->
+<!-- 	                <execution> -->
+<!-- 	                	<id>compile</id> -->
+<!-- 	                    <phase>compile</phase> -->
+<!-- 	                    <goals> -->
+<!-- 	                        <goal>compile</goal> -->
+<!-- 	                    </goals> -->
+<!--                 	</execution> -->
+<!--                 </executions> -->
 		        <configuration>
 					<source>${java.version}</source>
 					<target>${java.version}</target>
