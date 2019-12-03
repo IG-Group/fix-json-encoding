@@ -8,6 +8,7 @@
 	<xsl:param name="targetDirectory">target/generated-resources/definitions</xsl:param>
 	<xsl:param name="javaPackageName"></xsl:param>
 	<xsl:variable name="forwardSlash">/</xsl:variable>
+	<xsl:variable name="fieldsDirectory">fields</xsl:variable>
 	<xsl:template match="/">
 		<xsl:apply-templates/>
 	</xsl:template>
@@ -27,7 +28,7 @@
         <xsl:variable name="fieldType" select="@type"/>
         <!-- test if the field type is a code set, if so output an object for the enum -->
 		<xsl:if test="/fixr:repository/fixr:codeSets/fixr:codeSet[@name=$fieldType]">
-			<xsl:variable name="filename" select="fn:concat($targetDirectory, $forwardSlash, @name, '.json')"/>
+			<xsl:variable name="filename" select="fn:concat($targetDirectory, $forwardSlash, $fieldsDirectory, $forwardSlash, @name, '.json')"/>
 			<xsl:result-document method="text" href="{$filename}">
 			<xsl:variable name="codesetType" select="/fixr:repository/fixr:codeSets/fixr:codeSet[@name=$fieldType]/@type"/>
 { 
@@ -58,7 +59,27 @@
 }
 		</xsl:result-document>
 	</xsl:template>
-	<xsl:template match="fixr:group">		<xsl:variable name="filename" select="fn:concat($targetDirectory, $forwardSlash, @name, '.json')"/>
+	<!-- special case for RateSource 1062 which breaks the xslt, add suffix to the name -->
+	<xsl:template match="fixr:group[@id='1062']">		<xsl:variable name="filename" select="fn:concat($targetDirectory, $forwardSlash, @name, 'Grp.json')"/>
+		<xsl:result-document method="text" href="{$filename}">
+{ 
+	"title"                : "<xsl:value-of select="@name"/>Grp",
+	"description"          : "JSON Schema for repeating group <xsl:value-of select="@name"/>Grp",
+	"type"                 : "array",
+	"items"                : {
+		"type": "object",
+		<xsl:apply-templates select="@*"/>
+		"properties": {
+			<xsl:apply-templates select="fixr:fieldRef|fixr:groupRef|fixr:componentRef" mode="properties"/>
+		},
+		"required"             : [ 
+		<xsl:apply-templates select="fixr:fieldRef[@presence='required']|fixr:groupRef[@presence='required']|fixr:componentRef[@presence='required']" mode="required"/>
+		]
+	}
+}
+		</xsl:result-document>
+	</xsl:template>
+	<xsl:template match="fixr:group[not(@id='1062')]">		<xsl:variable name="filename" select="fn:concat($targetDirectory, $forwardSlash, @name, '.json')"/>
 		<xsl:result-document method="text" href="{$filename}">
 { 
 	"title"                : "<xsl:value-of select="@name"/>",
@@ -104,7 +125,7 @@
 		"<xsl:value-of select="$fieldName"/>": {  
 		<xsl:choose>
 			<xsl:when test="/fixr:repository/fixr:codeSets/fixr:codeSet[@name=$fieldType]">
-			"$ref": "<xsl:value-of select="$fieldName"/>.json"
+			"$ref": "file:./<xsl:value-of select="$fieldsDirectory"/>/<xsl:value-of select="$fieldName"/>.json"
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:call-template name="datatype"><xsl:with-param name="id" select="@id"/></xsl:call-template>
@@ -122,11 +143,22 @@
 		<xsl:variable name="theId" select="@id"/>
 		"<xsl:value-of select="/fixr:repository/fixr:components/fixr:component[@id=$theId]/@name"/>"<xsl:if test="fn:position() != fn:last()">, </xsl:if>
 	</xsl:template>
-	<xsl:template match="fixr:groupRef" mode="required">
+	<!-- special case for RateSource 1062 which breaks the xslt, add suffix to the name -->
+	<xsl:template match="fixr:groupRef[@id='1062']" mode="required">
+		<xsl:variable name="theId" select="@id"/>
+		"<xsl:value-of select="/fixr:repository/fixr:groups/fixr:group[@id=$theId]/@name"/>Grp"<xsl:if test="fn:position() != fn:last()">, </xsl:if>
+	</xsl:template>
+	<xsl:template match="fixr:groupRef[not(@id='1062')]" mode="required">
 		<xsl:variable name="theId" select="@id"/>
 		"<xsl:value-of select="/fixr:repository/fixr:groups/fixr:group[@id=$theId]/@name"/>"<xsl:if test="fn:position() != fn:last()">, </xsl:if>
 	</xsl:template>
-	<xsl:template match="fixr:groupRef" mode="properties">
+	<!-- special case for RateSource 1062 which breaks the xslt, add suffix to the name -->
+	<xsl:template match="fixr:groupRef[@id='1062']" mode="properties">
+		<xsl:variable name="theId" select="@id"/>
+		<xsl:variable name="theName" select="/fixr:repository/fixr:groups/fixr:group[@id=$theId]/@name"/>
+		"<xsl:value-of select="$theName"/>" : {"$ref": "<xsl:value-of select="$theName"/>Grp.json"}<xsl:if test="fn:position() != fn:last()">, </xsl:if>
+	</xsl:template>
+	<xsl:template match="fixr:groupRef[not(@id='1062')]" mode="properties">
 		<xsl:variable name="theId" select="@id"/>
 		<xsl:variable name="theName" select="/fixr:repository/fixr:groups/fixr:group[@id=$theId]/@name"/>
 		"<xsl:value-of select="$theName"/>" : {"$ref": "<xsl:value-of select="$theName"/>.json"}<xsl:if test="fn:position() != fn:last()">, </xsl:if>
