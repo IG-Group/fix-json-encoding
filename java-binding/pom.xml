@@ -4,11 +4,13 @@
 	<groupId>ig.fixprotocol.json</groupId>
 	<artifactId>java-binding</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+
 	<packaging>jar</packaging>
 	<name>${project.groupId}:${project.artifactId}</name>
 	<inceptionYear>2017</inceptionYear>
 	<properties>
 		<java.version>1.8</java.version>
+		<target-package>io.fixprotocol.orchestrations.standard</target-package>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -96,7 +98,7 @@
                  <artifactId>jsonschema2pojo-maven-plugin</artifactId>
                  <configuration>
                      <sourceDirectory>${project.build.directory}/json-schema</sourceDirectory>
-                     <targetPackage>io.fixprotocol.json</targetPackage>
+                     <targetPackage>${target-package}</targetPackage>
                  </configuration>
                  <executions>
 	                 <execution>

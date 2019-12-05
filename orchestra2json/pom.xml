@@ -11,6 +11,9 @@
 		<name>FIX Trading Community</name>
 		<url>http://http://www.fixtradingcommunity.org/</url>
 	</organization>
+	<properties>
+		<target-package>io.fixprotocol.orchestrations.standard</target-package>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>io.fixprotocol.orchestrations</groupId>
@@ -92,7 +95,7 @@
 						                </parameter>
 										<parameter>
 						                  <name>javaPackageName</name>
-						                  <value>com.ig.rfed.fix</value>
+						                  <value>${target-package}</value>
 										</parameter>
 		              				</parameters>
 								</transformationSet>

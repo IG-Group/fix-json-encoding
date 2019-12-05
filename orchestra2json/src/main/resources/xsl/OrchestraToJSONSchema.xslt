@@ -125,7 +125,7 @@
 		"<xsl:value-of select="$fieldName"/>": {  
 		<xsl:choose>
 			<xsl:when test="/fixr:repository/fixr:codeSets/fixr:codeSet[@name=$fieldType]">
-			"$ref": "file:./<xsl:value-of select="$fieldsDirectory"/>/<xsl:value-of select="$fieldName"/>.json"
+			"$ref": "<xsl:value-of select="$fieldsDirectory"/>/<xsl:value-of select="$fieldName"/>.json"
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:call-template name="datatype"><xsl:with-param name="id" select="@id"/></xsl:call-template>
